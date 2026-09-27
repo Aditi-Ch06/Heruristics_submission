@@ -1,0 +1,7 @@
+# Ignore generated output TSV files
+output/*.tsv
+
+# Ignore Python caches & OS files
+__pycache__/
+*.pyc
+.DS_Store
