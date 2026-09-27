@@ -1,0 +1,8 @@
+rapidfuzz
+unidecode
+lightgbm
+xgboost
+scikit-learn
+pandas
+numpy
+gdown
