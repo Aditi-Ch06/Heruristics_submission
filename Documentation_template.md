@@ -10,25 +10,25 @@ This section explains the implemented workflow from data acquisition through sub
 
 ```mermaid
 flowchart TD
-    A[Organizer dataset archive] --> B[Download with gdown and extract in Kaggle]
-    B --> C[Read train tables, test tables, and ground truth]
-    C --> D[Normalize text and derive name/address keys]
-    D --> E1[Sample training queries and build labeled pools]
-    D --> E2[Test Source 1, Source 2, and Source 3 records]
-    E1 --> F1[Country-scoped training blocking]
-    F1 --> G1[Label candidate pairs from ground truth]
-    G1 --> H1[Compute 49 pair features]
-    H1 --> I1[Five-fold grouped LightGBM and XGBoost training]
-    E2 --> F2[Country-scoped test blocking]
-    F2 --> G2[Keep top candidates and record blocking votes]
-    G2 --> H2[Compute 49 pair features in query chunks]
-    I1 --> J[Average fold predictions and blend both models]
-    H2 --> K[Score test candidate pairs]
+    A["Organizer-provided<br/>dataset archive"] --> B["Download with gdown<br/>Extract in Kaggle"]
+    B --> C["Read train, test, and<br/>ground-truth TSVs"]
+    C --> D["Normalize text;<br/>derive matching keys"]
+    D --> E1["Sample training<br/>queries; build pools"]
+    D --> E2["Load test records<br/>from three sources"]
+    E1 --> F1["Country-scoped<br/>training blocking"]
+    F1 --> G1["Label pairs using<br/>ground-truth IDs"]
+    G1 --> H1["Compute 49<br/>pair features"]
+    H1 --> I1["Train LightGBM<br/>and XGBoost; 5 folds"]
+    E2 --> F2["Country-scoped<br/>test blocking"]
+    F2 --> G2["Keep top candidates;<br/>count shared keys"]
+    G2 --> H2["Compute features<br/>in query batches"]
+    I1 --> J["Average fold scores;<br/>blend both models"]
+    H2 --> K["Score test<br/>candidate pairs"]
     J --> K
-    K --> L[Apply score floor and final threshold]
-    L --> M[Greedy one-use-per-target assignment]
-    M --> N[matching_results.tsv]
-    G2 --> O[candidate_pairs.tsv]
+    K --> L["Apply score floor<br/>and final threshold"]
+    L --> M["Assign target IDs once<br/>per country"]
+    M --> N["Write final matches<br/>to TSV output"]
+    G2 --> O["Write blocked pairs<br/>to TSV output"]
 ```
 
 ## Data Collection and Training Set Construction
